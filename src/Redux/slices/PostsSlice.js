@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-export const GetPosts = createAsyncThunk("users/fetchByIdStatus", async () => {
+export const GetPosts = createAsyncThunk("post/fetchPostData", async () => {
   try {
     let response = await fetch("https://jsonplaceholder.typicode.com/posts")
       .then((res) => res.json())

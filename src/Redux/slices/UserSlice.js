@@ -17,12 +17,13 @@ export const incrementAsync = createAsyncThunk(
     }
   }
 );
+const initialState = {
+  user: [],
+  fav: [],
+};
 const productsSlice = createSlice({
   name: "products",
-  initialState: {
-    user: [],
-    fav: [],
-  },
+  initialState,
   reducers: {
     deleteUser: (state, action) => {
       state.user = state.user.filter((u) => u.id !== action.payload.id);
