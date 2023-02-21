@@ -14,7 +14,6 @@ import { useSelector } from "react-redux";
 
 const Posts = () => {
   const post = useSelector((state) => state.posts);
-  console.log(post);
   return (
     <>
       <Box
