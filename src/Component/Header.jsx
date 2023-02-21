@@ -28,14 +28,13 @@ function ResponsiveAppBar() {
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
   const handleOpenNavMenu = (event) => {
-    setAnchorElNav(event.currentTarget);
+    setAnchorElNav(null);
   };
   const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget);
+    setAnchorElNav(null);
   };
 
   const handleCloseNavMenu = (e) => {
-    console.log(e.target.innerText);
     if (e.target.innerText === "PRODUCTS") {
       dispatch(incrementAsync());
       navigate("/dashboard");
@@ -48,33 +47,15 @@ function ResponsiveAppBar() {
   };
 
   const handleCloseUserMenu = (e) => {
-    if (e.target.innerText === "Logout") window.location.reload();
+    handleCloseNavMenu()
     setAnchorElNav(null);
+    // if (e.target.innerText === "Logout") window.location.reload();
   };
 
   return (
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
-          <Typography
-            variant="h6"
-            noWrap
-            component="a"
-            href="/"
-            sx={{
-              mr: 2,
-              display: { xs: "none", md: "flex" },
-              fontFamily: "monospace",
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "inherit",
-              textDecoration: "none",
-            }}
-          >
-            LOGO
-          </Typography>
-
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
               size="large"

@@ -20,7 +20,6 @@ import { toast } from "react-toastify";
 const Dashboard = () => {
   const dispatch = useDispatch();
   const users = useSelector((state) => state.products);
-  console.log("user", users);
 
   const handelDeleteUser = (item) => {
     dispatch(deleteUser(item));
