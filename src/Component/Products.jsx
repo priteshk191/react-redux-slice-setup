@@ -16,6 +16,7 @@ import { deleteUser, favoriteUser } from "../Redux/slices/UserSlice.js";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import StarIcon from "@mui/icons-material/Star";
 import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
 
 const Products = () => {
   const dispatch = useDispatch();
@@ -34,85 +35,83 @@ const Products = () => {
     );
   };
   return (
-    <Box
-      sx={{
-        display: "flex",
-        flexWrap: "wrap",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
-      {users.status === "pending" && users.user.length <= 0 ? (
-        <CircularProgress sx={{ marginTop: 50 }} />
-      ) : (
-        users.user.map((item, i) => {
-          return (
-            <Card sx={{ maxWidth: 345, margin: 5, padding: 5 }}>
-              <CardHeader
-                avatar={
-                  <Avatar sx={{ bgcolor: blue[500] }} aria-label="recipe">
-                    {item.name.charAt(0)}
-                  </Avatar>
-                }
-                action={
-                  <IconButton aria-label="settings">
-                    <MoreVertIcon />
-                  </IconButton>
-                }
-                title={item.name}
-              />
+    <>
+      <Box
+        sx={{
+          display: "flex",
+          flexWrap: "wrap",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        {users.status === "pending" && users.user.length <= 0 ? (
+          <CircularProgress sx={{ marginTop: 50 }} />
+        ) : (
+          users.user.map((item, i) => {
+            return (
+              <Card sx={{ maxWidth: 345, margin: 5, padding: 5 }}>
+                <CardHeader
+                  avatar={
+                    <Avatar sx={{ bgcolor: blue[500] }} aria-label="recipe">
+                      {item.name.charAt(0)}
+                    </Avatar>
+                  }
+                  title={item.name}
+                />
 
-              <CardContent
-                sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "flex-start",
-                }}
-              >
-                <Typography
-                  variant="body2"
-                  color="text.secondary"
-                  sx={{ marginBottom: 1 }}
+                <CardContent
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "flex-start",
+                  }}
                 >
-                  {item.username}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {item.email}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {item.phone}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {item.website}
-                </Typography>
-              </CardContent>
-              <CardActions disableSpacing>
-                <IconButton
-                  aria-label="delete"
-                  onClick={() => handelDeleteUser(item)}
-                >
-                  <DeleteIcon />
-                </IconButton>
-                <IconButton aria-label="share">
-                  <EditIcon />
-                </IconButton>
-                <IconButton
-                  aria-label="star"
-                  onClick={() => handleFavData(item)}
-                >
-                  {users.fav.find((i) => i.id === item.id) ? (
-                    <StarIcon />
-                  ) : (
-                    <StarBorderIcon />
-                  )}
-                </IconButton>
-              </CardActions>
-            </Card>
-          );
-        })
-      )}
-    </Box>
+                  <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    sx={{ marginBottom: 1 }}
+                  >
+                    {item.username}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    {item.email}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    {item.phone}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    {item.website}
+                  </Typography>
+                </CardContent>
+                <CardActions disableSpacing>
+                  <IconButton
+                    aria-label="delete"
+                    onClick={() => handelDeleteUser(item)}
+                  >
+                    <DeleteIcon />
+                  </IconButton>
+                  <Link to={`edit/${item.id}`}>
+                    <IconButton aria-label="share">
+                      <EditIcon />
+                    </IconButton>
+                  </Link>
+                  <IconButton
+                    aria-label="star"
+                    onClick={() => handleFavData(item)}
+                  >
+                    {users.fav.find((i) => i.id === item.id) ? (
+                      <StarIcon />
+                    ) : (
+                      <StarBorderIcon />
+                    )}
+                  </IconButton>
+                </CardActions>
+              </Card>
+            );
+          })
+        )}
+      </Box>
+    </>
   );
 };
-
 export default Products;
