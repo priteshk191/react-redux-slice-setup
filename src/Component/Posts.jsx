@@ -24,38 +24,39 @@ const Posts = () => {
           justifyContent: "center",
         }}
       >
-        {post.post.map((item, i) => {
-          return (
-            <>
-              <Card sx={{ maxWidth: 345, margin: 5, padding: 5 }}>
-                <CardHeader
-                  avatar={
-                    <Avatar sx={{ bgcolor: blue[500] }} aria-label="recipe">
-                      {item.userId}
-                    </Avatar>
-                  }
-                  title={item.title}
-                />
+        {post &&
+          post?.post?.map((item, i) => {
+            return (
+              <>
+                <Card sx={{ maxWidth: 345, margin: 5, padding: 5 }}>
+                  <CardHeader
+                    avatar={
+                      <Avatar sx={{ bgcolor: blue[500] }} aria-label="recipe">
+                        {item.userId}
+                      </Avatar>
+                    }
+                    title={item.title}
+                  />
 
-                <CardContent
-                  sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "flex-start",
-                  }}
-                >
-                  <Typography
-                    variant="body2"
-                    color="text.secondary"
-                    sx={{ marginBottom: 1 }}
+                  <CardContent
+                    sx={{
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "flex-start",
+                    }}
                   >
-                    {item.body}
-                  </Typography>
-                </CardContent>
-              </Card>
-            </>
-          );
-        })}
+                    <Typography
+                      variant="body2"
+                      color="text.secondary"
+                      sx={{ marginBottom: 1 }}
+                    >
+                      {item.body}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </>
+            );
+          })}
       </Box>
     </>
   );

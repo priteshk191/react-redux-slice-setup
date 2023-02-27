@@ -3,37 +3,35 @@ import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import Menu from "@mui/material/Menu";
-import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
-import MenuItem from "@mui/material/MenuItem";
-import AdbIcon from "@mui/icons-material/Adb";
 import { useDispatch } from "react-redux";
 import { incrementAsync } from "../Redux/slices/UserSlice";
 import { Link, useNavigate } from "react-router-dom";
 import { GetPosts } from "../Redux/slices/PostsSlice";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import FitbitIcon from "@mui/icons-material/Fitbit";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
 
-const pages = ["Products", "Posts"];
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
+const pages = ["Home", "Products", "Posts"];
 
 function ResponsiveAppBar() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
   const [anchorElNav, setAnchorElNav] = React.useState(null);
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [tab, setTab] = React.useState(1);
 
-  const handleOpenNavMenu = (event) => {
-    setAnchorElNav(null);
-  };
-  const handleOpenUserMenu = (event) => {
-    setAnchorElNav(null);
+  React.useEffect(() => {
+    const url = window.location.href;
+    if (!pages.some((word) => url.includes(word.toLowerCase()))) {
+      setTab(1);
+    }
+  });
+
+  const handleChange = (event, newValue) => {
+    console.log(newValue);
+    setTab(newValue);
   };
 
   const handleCloseNavMenu = (e) => {
@@ -45,95 +43,70 @@ function ResponsiveAppBar() {
       navigate("/posts");
       dispatch(GetPosts());
     }
+    if (e.target.innerText === "HOME") {
+      navigate("/home");
+    }
     setAnchorElNav(null);
-  };
-
-  const handleCloseUserMenu = (e) => {
-    handleCloseNavMenu();
-    setAnchorElNav(null);
-    // if (e.target.innerText === "Logout") window.location.reload();
   };
 
   return (
-    <AppBar position="static" sx={{ borderRadius: "6px" }}>
-      <Container maxWidth="xl">
-        <Toolbar disableGutters>
-          <FitbitIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
-          <Typography
-            variant="h6"
-            noWrap
-            component="a"
-            onClick={() => {
-              navigate("/");
-            }}
-            sx={{
-              mr: 2,
-              display: { xs: "none", md: "flex" },
-              fontFamily: "monospace",
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "inherit",
-              textDecoration: "none",
-              cursor: "pointer",
-            }}
-          >
-            Home
-          </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={{
-                  my: 2,
-                  color: "white",
-                  display: "block",
-                  fontWeight: 500,
-                  fontSize: "15px",
-                }}
+    <Box>
+      <AppBar
+        sx={{
+          width: "100%",
+          padding: "0",
+          position: "fixed",
+          borderRadius: "6px",
+          color: "#1976d2",
+          background: "#fff",
+          boxShadow: "none",
+          alignItems: "center",
+          marginBottom: "40px",
+        }}
+      >
+        <Container maxWidth="xl">
+          <Toolbar disableGutters>
+            <FitbitIcon sx={{ display: { md: "flex" }, mr: 1 }} />
+            <Box sx={{ width: "100%" }}>
+              <Tabs
+                value={tab}
+                onChange={handleChange}
+                textColor="secondary"
+                indicatorColor="secondary"
+                aria-label="secondary tabs example"
+                centered
               >
-                {page}
-              </Button>
-            ))}
-          </Box>
+                {pages.map((page, i) => (
+                  <Tab
+                    onClick={handleCloseNavMenu}
+                    value={i + 2}
+                    label={page}
+                    sx={{
+                      fontSize: "14px",
+                      fontWeight: "600",
+                      color: "#1976d2",
+                    }}
+                  />
+                ))}
+              </Tabs>
+            </Box>
 
-          <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Cart">
-              <Link to="/cart">
-                <IconButton
-                  //  onClick={handleOpenUserMenu}
-                  sx={{ p: 0 }}
-                >
-                  <ShoppingCartIcon style={{ color: "#fff" }} />
-                </IconButton>
-              </Link>
-            </Tooltip>
-            {/* <Menu
-              sx={{ mt: "45px" }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={(e) => handleCloseUserMenu(e)}
-            >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={(e) => handleCloseUserMenu(e)}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
-            </Menu> */}
-          </Box>
-        </Toolbar>
-      </Container>
-    </AppBar>
+            <Box sx={{ flexGrow: 0 }}>
+              <Tooltip title="Cart">
+                <Link to="/cart">
+                  <IconButton
+                    //  onClick={handleOpenUserMenu}
+                    sx={{ p: 0, color: "#1976d2" }}
+                  >
+                    <ShoppingCartIcon />
+                  </IconButton>
+                </Link>
+              </Tooltip>
+            </Box>
+          </Toolbar>
+        </Container>
+      </AppBar>
+    </Box>
   );
 }
 export default ResponsiveAppBar;
