@@ -6,7 +6,7 @@ import IconButton from "@mui/material/IconButton";
 import Container from "@mui/material/Container";
 import Tooltip from "@mui/material/Tooltip";
 import { useDispatch } from "react-redux";
-import { incrementAsync } from "../Redux/slices/UserSlice";
+import { incrementAsync } from "../Redux/slices/Productslice";
 import { Link, useNavigate } from "react-router-dom";
 import { GetPosts } from "../Redux/slices/PostsSlice";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";

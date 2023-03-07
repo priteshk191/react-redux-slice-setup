@@ -1,45 +1,56 @@
 import React from "react";
-import Card from "@mui/material/Card";
-import CardHeader from "@mui/material/CardHeader";
-import CardContent from "@mui/material/CardContent";
-import CardActions from "@mui/material/CardActions";
-import Avatar from "@mui/material/Avatar";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import { blue } from "@mui/material/colors";
-import { Box, Button, CircularProgress } from "@mui/material";
-import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
-import { useSelector, useDispatch } from "react-redux";
-import { deleteUser, favoriteUser } from "../Redux/slices/UserSlice.js";
-import StarBorderIcon from "@mui/icons-material/StarBorder";
-import StarIcon from "@mui/icons-material/Star";
+import { styled } from "@mui/system";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
+import StarIcon from "@mui/icons-material/Star";
+import EditIcon from "@mui/icons-material/Edit";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import CardActions from "@mui/material/CardActions";
+import CardContent from "@mui/material/CardContent";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { Box, CircularProgress } from "@mui/material";
+import { useSelector, useDispatch } from "react-redux";
+import StarBorderIcon from "@mui/icons-material/StarBorder";
+import {
+  deleteProduct,
+  favoriteProduct,
+} from "../Redux/slices/Productslice.js";
 
 const Products = () => {
   const dispatch = useDispatch();
   const users = useSelector((state) => state.products);
 
-  const handelDeleteUser = (item) => {
-    dispatch(deleteUser(item));
-    toast.error(`${item.name} Deleted`);
+  const handelDelete = (item) => {
+    dispatch(deleteProduct(item));
+    toast.success(`Product Deleted`);
   };
   const handleFavData = (item) => {
-    dispatch(favoriteUser(item));
-    toast.success(
-      `${item.name} ${
-        users.fav.find((i) => i.id === item.id) ? "Removed" : "Added"
-      } From Favorite`
-    );
+    dispatch(favoriteProduct(item));
+    toast.success("Favorite Added Successfully");
   };
+
+  const CardMain = styled("div")({
+    maxWidth: 345,
+    background: "#fff",
+    margin: 5,
+    padding: 5,
+    border: "1px solid #1976d2",
+    borderRadius: "6px",
+    transition: "0.3s",
+    "&:hover": {
+      transform: "scale(1.2)",
+    },
+  });
+
   return (
     <>
       <Box
         sx={{
+          marginTop: "100px",
           display: "flex",
           flexWrap: "wrap",
+          gap: "40px",
           alignItems: "center",
           justifyContent: "center",
         }}
@@ -47,18 +58,20 @@ const Products = () => {
         {users.status === "pending" && users.user.length <= 0 ? (
           <CircularProgress sx={{ marginTop: 50 }} />
         ) : (
-          users.user.map((item, i) => {
+          users?.user?.map((item, i) => {
             return (
-              <Card sx={{ maxWidth: 345, margin: 5, padding: 5 }}>
-                <CardHeader
-                  avatar={
-                    <Avatar sx={{ bgcolor: blue[500] }} aria-label="recipe">
-                      {item.name.charAt(0)}
-                    </Avatar>
-                  }
-                  title={item.name}
+              <CardMain>
+                <Box
+                  component="img"
+                  sx={{
+                    height: 350,
+                    width: 350,
+                    maxHeight: { xs: 350, md: 230 },
+                    maxWidth: { xs: 350, md: 250 },
+                  }}
+                  alt="The house from the offer."
+                  src={item.image}
                 />
-
                 <CardContent
                   sx={{
                     display: "flex",
@@ -71,22 +84,36 @@ const Products = () => {
                     color="text.secondary"
                     sx={{ marginBottom: 1 }}
                   >
-                    {item.username}
+                    {item.title}
                   </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    {item.email}
+
+                  {/* <Box sx={{ display: "flex", gap: "10px" }}>
+                    <Typography variant="body2" color="text.secondary">
+                      {item.rating.count}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      {item.rating.rate}
+                    </Typography>
+                  </Box> */}
+                  <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    sx={{ marginBottom: 1, marginTop: 2 }}
+                  >
+                    {item.description}
                   </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    {item.phone}
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    {item.website}
+                  <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    sx={{ marginBottom: 1, marginTop: 4 }}
+                  >
+                    Price : ${item.price}
                   </Typography>
                 </CardContent>
                 <CardActions disableSpacing>
                   <IconButton
                     aria-label="delete"
-                    onClick={() => handelDeleteUser(item)}
+                    onClick={() => handelDelete(item)}
                   >
                     <DeleteIcon />
                   </IconButton>
@@ -100,13 +127,13 @@ const Products = () => {
                     onClick={() => handleFavData(item)}
                   >
                     {users.fav.find((i) => i.id === item.id) ? (
-                      <StarIcon />
+                      <StarIcon sx={{ fill: "green" }} />
                     ) : (
                       <StarBorderIcon />
                     )}
                   </IconButton>
                 </CardActions>
-              </Card>
+              </CardMain>
             );
           })
         )}

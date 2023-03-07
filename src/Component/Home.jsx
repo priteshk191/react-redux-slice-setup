@@ -8,5 +8,5 @@ const HomeAlignment = styled("div")({
   borderRadius: 4,
 });
 export default function Home() {
-  return <HomeAlignment>aaa</HomeAlignment>;
+  return <HomeAlignment>Home</HomeAlignment>;
 }

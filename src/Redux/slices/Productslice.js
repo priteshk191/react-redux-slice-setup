@@ -6,10 +6,10 @@ export const incrementAsync = createAsyncThunk(
   async () => {
     // return UserData;         // json
     try {
-      let response = await fetch("https://jsonplaceholder.typicode.com/users")
+      let response = await fetch("https://fakestoreapi.com/products")
         .then((res) => res.json())
         .then((json) => {
-          return json;
+          return json.reverse();
         });
       return response;
     } catch {
@@ -25,10 +25,10 @@ const productsSlice = createSlice({
   name: "products",
   initialState,
   reducers: {
-    deleteUser: (state, action) => {
+    deleteProduct: (state, action) => {
       state.user = state.user.filter((u) => u.id !== action.payload.id);
     },
-    favoriteUser: (state, action) => {
+    favoriteProduct: (state, action) => {
       const index = state.fav.findIndex(
         (item) => item.id === action.payload.id
       );
@@ -57,7 +57,7 @@ const productsSlice = createSlice({
     // .addDefaultCase((state, action) => {});
   },
 });
-export const { deleteUser, favoriteUser, removeFavoriteUser } =
+export const { deleteProduct, favoriteProduct, removeFavoriteUser } =
   productsSlice.actions;
 
 export default productsSlice.reducer;
