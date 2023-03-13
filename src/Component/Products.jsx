@@ -12,23 +12,28 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { Box, CircularProgress } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
+import Button from '@mui/material/Button';
 import {
   deleteProduct,
   favoriteProduct,
+  addToCart
 } from "../Redux/slices/Productslice.js";
 
 const Products = () => {
   const dispatch = useDispatch();
-  const users = useSelector((state) => state.products);
+  const products = useSelector((state) => state.products);
 
-  const handelDelete = (item) => {
-    dispatch(deleteProduct(item));
-    toast.success(`Product Deleted`);
-  };
+  // const handelDelete = (item) => {
+  //   dispatch(deleteProduct(item));
+  //   toast.success(`Product Deleted`);
+  // };
   const handleFavData = (item) => {
     dispatch(favoriteProduct(item));
     toast.success("Favorite Added Successfully");
   };
+  const handleAddToCart = (cart) => {
+    dispatch(addToCart(cart));
+  }
 
   const CardMain = styled("div")({
     maxWidth: 345,
@@ -38,9 +43,9 @@ const Products = () => {
     border: "1px solid #1976d2",
     borderRadius: "6px",
     transition: "0.3s",
-    "&:hover": {
-      transform: "scale(1.2)",
-    },
+    // "&:hover": {
+    //   transform: "scale(1.2)",
+    // },
   });
 
   return (
@@ -55,10 +60,10 @@ const Products = () => {
           justifyContent: "center",
         }}
       >
-        {users.status === "pending" && users.user.length <= 0 ? (
+        {products.status === "pending" && products.product.length <= 0 ? (
           <CircularProgress sx={{ marginTop: 50 }} />
         ) : (
-          users?.user?.map((item, i) => {
+          products?.product?.map((item, i) => {
             return (
               <CardMain>
                 <Box
@@ -110,28 +115,34 @@ const Products = () => {
                     Price : ${item.price}
                   </Typography>
                 </CardContent>
-                <CardActions disableSpacing>
-                  <IconButton
-                    aria-label="delete"
-                    onClick={() => handelDelete(item)}
-                  >
-                    <DeleteIcon />
-                  </IconButton>
-                  <Link to={`edit/${item.id}`}>
-                    <IconButton aria-label="share">
-                      <EditIcon />
+                <CardActions disableSpacing sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <Box >
+                    {/* <IconButton
+                      aria-label="delete"
+                      onClick={() => handelDelete(item)}
+                    >
+                      <DeleteIcon />
+                    </IconButton> */}
+                    <Link to={`edit/${item.id}`}>
+                      {/* <IconButton aria-label="share">
+                        <EditIcon />
+                      </IconButton> */}
+                    </Link>
+                    <IconButton
+                      aria-label="star"
+                      onClick={() => handleFavData(item)}
+                    >
+                      {products.fav.find((i) => i.id === item.id) ? (
+                        <StarIcon sx={{ fill: "green" }} />
+                      ) : (
+                        <StarBorderIcon />
+                      )}
                     </IconButton>
-                  </Link>
-                  <IconButton
-                    aria-label="star"
-                    onClick={() => handleFavData(item)}
-                  >
-                    {users.fav.find((i) => i.id === item.id) ? (
-                      <StarIcon sx={{ fill: "green" }} />
-                    ) : (
-                      <StarBorderIcon />
-                    )}
-                  </IconButton>
+                  </Box>
+                  {products.cart.find((i) => i.id === item.id) ? (
+                    <Button variant="contained">Added to Cart</Button>
+                  ) : (
+                    <Button onClick={() => handleAddToCart(item)} variant="outlined"> Add to Cart</Button>)}
                 </CardActions>
               </CardMain>
             );

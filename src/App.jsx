@@ -17,7 +17,7 @@ function App() {
         <ToastContainer />
         <Box sx={{ paddingTop: "60px", flex: 1, overflowY: "auto" }}>
           <Routes>
-            <Route path="/home" element={<Home />}></Route>
+            <Route path="/" element={<Home />}></Route>
             <Route path="/products" element={<Products />}></Route>
             <Route path="/products/edit/:id" element={<EditProduct />}></Route>
             <Route path="/posts" element={<Posts />}></Route>

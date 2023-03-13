@@ -17,16 +17,19 @@ export const incrementAsync = createAsyncThunk(
     }
   }
 );
+const cartFromLocalStorage = localStorage.getItem('cart');
+
 const initialState = {
-  user: [],
+  product: [],
   fav: [],
+  cart: cartFromLocalStorage ? JSON.parse(cartFromLocalStorage) : []
 };
 const productsSlice = createSlice({
   name: "products",
   initialState,
   reducers: {
     deleteProduct: (state, action) => {
-      state.user = state.user.filter((u) => u.id !== action.payload.id);
+      state.product = state.product.filter((u) => u.id !== action.payload.id);
     },
     favoriteProduct: (state, action) => {
       const index = state.fav.findIndex(
@@ -36,8 +39,20 @@ const productsSlice = createSlice({
       else state.fav.push(action.payload);
     },
     removeFavoriteUser: (state, action) => {
-      state.fav = state.user.filter((u) => u.id !== action.payload.id);
+      state.fav = state.product.filter((u) => u.id !== action.payload.id);
     },
+    removeFromCart: (state, action) => {
+      state.cart = state.cart.filter((u) => u.id !== action.payload);
+      // Update cart data in local storage
+      localStorage.setItem('cart', JSON.stringify(state.cart));
+    },
+    addToCart: (state, action) => {
+      const newProduct = state.product.find((u) => u.id === action.payload.id);
+      const newCart = [...state.cart, newProduct];
+      state.cart = newCart;
+      // Store cart data in local storage
+      localStorage.setItem('cart', JSON.stringify(newCart));
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -45,7 +60,7 @@ const productsSlice = createSlice({
         state.status = "pending";
       })
       .addCase(incrementAsync.fulfilled, (state, action) => {
-        state.user = action.payload;
+        state.product = action.payload;
         state.status = "success";
       })
       .addCase(incrementAsync.rejected, (state, action) => {
@@ -57,7 +72,7 @@ const productsSlice = createSlice({
     // .addDefaultCase((state, action) => {});
   },
 });
-export const { deleteProduct, favoriteProduct, removeFavoriteUser } =
+export const { deleteProduct, favoriteProduct, removeFavoriteUser, addToCart, removeFromCart } =
   productsSlice.actions;
 
 export default productsSlice.reducer;

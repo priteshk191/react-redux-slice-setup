@@ -3,9 +3,10 @@ import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
+import Badge from "@mui/material/Badge";
 import Container from "@mui/material/Container";
 import Tooltip from "@mui/material/Tooltip";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { incrementAsync } from "../Redux/slices/Productslice";
 import { Link, useNavigate } from "react-router-dom";
 import { GetPosts } from "../Redux/slices/PostsSlice";
@@ -13,14 +14,34 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import FitbitIcon from "@mui/icons-material/Fitbit";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
+import { styled } from "@mui/system";
 
 const pages = ["Home", "Products", "Posts"];
+const StyledBadge = styled(Badge)(({ theme }) => ({
+  '& .MuiBadge-badge': {
+    right: -1,
+    top: 0,
+    padding: '1px',
+    backgroundColor: '#FF6B6B',
+    color: 'white',
+    fontSize: 12,
+    fontWeight: 'bold',
+    minWidth: '20px',
+    minHeight: '20px',
+    borderRadius: '50%',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+}));
 
 function ResponsiveAppBar() {
+  const cart = useSelector(state => state.products.cart);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const [anchorElNav, setAnchorElNav] = React.useState(null);
-  const [tab, setTab] = React.useState(1);
+  const [tab, setTab] = React.useState(2);
 
   React.useEffect(() => {
     const url = window.location.href;
@@ -30,7 +51,6 @@ function ResponsiveAppBar() {
   });
 
   const handleChange = (event, newValue) => {
-    console.log(newValue);
     setTab(newValue);
   };
 
@@ -44,11 +64,10 @@ function ResponsiveAppBar() {
       dispatch(GetPosts());
     }
     if (e.target.innerText === "HOME") {
-      navigate("/home");
+      navigate("/");
     }
     setAnchorElNav(null);
   };
-
   return (
     <Box>
       <AppBar
@@ -90,15 +109,16 @@ function ResponsiveAppBar() {
                 ))}
               </Tabs>
             </Box>
-
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="Cart">
                 <Link to="/cart">
                   <IconButton
-                    //  onClick={handleOpenUserMenu}
                     sx={{ p: 0, color: "#1976d2" }}
+                    aria-label="cart"
                   >
-                    <ShoppingCartIcon />
+                    <StyledBadge badgeContent={ cart.length > 0 ? cart.length : 0} color="secondary" >
+                      <ShoppingCartIcon />
+                    </StyledBadge>
                   </IconButton>
                 </Link>
               </Tooltip>
