@@ -4,8 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
+    "dev": "vite --port 3000",
+    "build": "rimraf ./dist && vite build && rimraf ./dist/**/*.map",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -14,12 +14,14 @@
     "@mui/icons-material": "^5.11.0",
     "@mui/material": "^5.11.8",
     "@reduxjs/toolkit": "^1.9.2",
+    "axios": "^1.3.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.8.1",
     "react-toastify": "^9.1.1",
-    "redux": "^4.2.1"
+    "redux": "^4.2.1",
+    "redux-persist": "^6.0.0"
   },
   "devDependencies": {
     "@types/react": "^18.0.27",

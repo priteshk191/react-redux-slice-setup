@@ -1,6 +1,5 @@
 import * as React from "react";
 import { styled } from "@mui/material/styles";
-
 const HomeAlignment = styled("div")({
   color: "darkslategray",
   backgroundColor: "aliceblue",

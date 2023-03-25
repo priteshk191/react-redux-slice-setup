@@ -1,25 +1,23 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-
-export const GetPosts = createAsyncThunk("post/fetchPostData", async () => {
+import axios from "axios";
+const initialState = {
+  posts: [],
+  status: "idle",
+  error: null,
+};
+export const GetPosts = createAsyncThunk("posts/GetPosts", async () => {
   try {
-    let response = await fetch("https://jsonplaceholder.typicode.com/posts")
-      .then((res) => res.json())
-      .then((json) => {
-        return json;
-      });
+    const response = await axios.get("https://jsonplaceholder.typicode.com/posts");
     return response;
-  } catch {
-    console.log("aaaaaaa");
+  } catch (e) {
+    return e.response;
   }
 });
-const initialState = {
-  post: [],
-};
 const PostSlice = createSlice({
   name: "posts",
-  initialState,
+  initialState: initialState,
   //   reducers: {
-  //     deleteUser: (state, action) => {
+  //     deleteUser: (state, action) => {`
   //       state.user = state.user.filter((u) => u.id !== action.payload.id);
   //     },
   //     favoriteUser: (state, action) => {
@@ -35,15 +33,15 @@ const PostSlice = createSlice({
   //   },
   extraReducers: (builder) => {
     builder
-      .addCase(GetPosts.pending, (state, action) => {
-        state.status = "pending";
+      .addCase(GetPosts.pending, (state) => {
+        state.status = "loading";
       })
       .addCase(GetPosts.fulfilled, (state, action) => {
-        state.post = action.payload;
-        state.status = "success";
+        state.status = "succeeded";
+        state.posts = action?.payload?.data;
       })
-      .addCase(GetPosts.rejected, (state, action) => {
-        state.status = "rejected";
+      .addCase(GetPosts.rejected, (state) => {
+        state.status = "failed";
       });
     // .addMatcher(isRejectedAction, (state, action) => {
     //   state.error = action.error.message;
@@ -51,6 +49,5 @@ const PostSlice = createSlice({
     // .addDefaultCase((state, action) => {});
   },
 });
-export const {} = PostSlice.actions;
-
+//export const { deleteUser, favoriteUser, removeFavoriteUser } = PostSlice.actions;
 export default PostSlice.reducer;

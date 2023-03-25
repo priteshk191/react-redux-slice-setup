@@ -12,17 +12,15 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { Box, CircularProgress } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
-import Button from '@mui/material/Button';
+import Button from "@mui/material/Button";
 import {
   deleteProduct,
   favoriteProduct,
-  addToCart
+  addToCart,
 } from "../Redux/slices/Productslice.js";
-
 const Products = () => {
   const dispatch = useDispatch();
-  const products = useSelector((state) => state.products);
-
+  const { products } = useSelector((state) => state);
   // const handelDelete = (item) => {
   //   dispatch(deleteProduct(item));
   //   toast.success(`Product Deleted`);
@@ -33,8 +31,7 @@ const Products = () => {
   };
   const handleAddToCart = (cart) => {
     dispatch(addToCart(cart));
-  }
-
+  };
   const CardMain = styled("div")({
     maxWidth: 345,
     background: "#fff",
@@ -47,7 +44,6 @@ const Products = () => {
     //   transform: "scale(1.2)",
     // },
   });
-
   return (
     <>
       <Box
@@ -65,7 +61,7 @@ const Products = () => {
         ) : (
           products?.product?.map((item, i) => {
             return (
-              <CardMain>
+              <CardMain key={i}>
                 <Box
                   component="img"
                   sx={{
@@ -91,22 +87,9 @@ const Products = () => {
                   >
                     {item.title}
                   </Typography>
-
-                  {/* <Box sx={{ display: "flex", gap: "10px" }}>
-                    <Typography variant="body2" color="text.secondary">
-                      {item.rating.count}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      {item.rating.rate}
-                    </Typography>
-                  </Box> */}
-                  <Typography
-                    variant="body2"
-                    color="text.secondary"
-                    sx={{ marginBottom: 1, marginTop: 2 }}
-                  >
+                  {/* <Typography variant="body2" color="text.secondary" sx={{ marginBottom: 1, marginTop: 2 }}>
                     {item.description}
-                  </Typography>
+                  </Typography> */}
                   <Typography
                     variant="body2"
                     color="text.secondary"
@@ -115,8 +98,15 @@ const Products = () => {
                     Price : ${item.price}
                   </Typography>
                 </CardContent>
-                <CardActions disableSpacing sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <Box >
+                <CardActions
+                  disableSpacing
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
+                >
+                  <Box>
                     {/* <IconButton
                       aria-label="delete"
                       onClick={() => handelDelete(item)}
@@ -142,7 +132,14 @@ const Products = () => {
                   {products.cart.find((i) => i.id === item.id) ? (
                     <Button variant="contained">Added to Cart</Button>
                   ) : (
-                    <Button onClick={() => handleAddToCart(item)} variant="outlined"> Add to Cart</Button>)}
+                    <Button
+                      onClick={() => handleAddToCart(item)}
+                      variant="outlined"
+                    >
+                      {" "}
+                      Add to Cart
+                    </Button>
+                  )}
                 </CardActions>
               </CardMain>
             );

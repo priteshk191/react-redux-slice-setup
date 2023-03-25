@@ -15,45 +15,39 @@ import FitbitIcon from "@mui/icons-material/Fitbit";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import { styled } from "@mui/system";
-
 const pages = ["Home", "Products", "Posts"];
 const StyledBadge = styled(Badge)(({ theme }) => ({
-  '& .MuiBadge-badge': {
+  "& .MuiBadge-badge": {
     right: -1,
     top: 0,
-    padding: '1px',
-    backgroundColor: '#FF6B6B',
-    color: 'white',
+    padding: "1px",
+    backgroundColor: "#FF6B6B",
+    color: "white",
     fontSize: 12,
-    fontWeight: 'bold',
-    minWidth: '20px',
-    minHeight: '20px',
-    borderRadius: '50%',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
+    fontWeight: "bold",
+    minWidth: "20px",
+    minHeight: "20px",
+    borderRadius: "50%",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
   },
 }));
-
 function ResponsiveAppBar() {
-  const cart = useSelector(state => state.products.cart);
+  const cart = useSelector((state) => state.products.cart);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [tab, setTab] = React.useState(2);
-
   React.useEffect(() => {
     const url = window.location.href;
     if (!pages.some((word) => url.includes(word.toLowerCase()))) {
       setTab(1);
     }
   });
-
   const handleChange = (event, newValue) => {
     setTab(newValue);
   };
-
   const handleCloseNavMenu = (e) => {
     if (e.target.innerText === "PRODUCTS") {
       dispatch(incrementAsync());
@@ -87,16 +81,10 @@ function ResponsiveAppBar() {
           <Toolbar disableGutters>
             <FitbitIcon sx={{ display: { md: "flex" }, mr: 1 }} />
             <Box sx={{ width: "100%" }}>
-              <Tabs
-                value={tab}
-                onChange={handleChange}
-                textColor="secondary"
-                indicatorColor="secondary"
-                aria-label="secondary tabs example"
-                centered
-              >
+              <Tabs value={tab} onChange={handleChange} textColor="secondary" indicatorColor="secondary" aria-label="secondary tabs example" centered>
                 {pages.map((page, i) => (
                   <Tab
+                    key={i}
                     onClick={handleCloseNavMenu}
                     value={i + 2}
                     label={page}
@@ -112,11 +100,8 @@ function ResponsiveAppBar() {
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="Cart">
                 <Link to="/cart">
-                  <IconButton
-                    sx={{ p: 0, color: "#1976d2" }}
-                    aria-label="cart"
-                  >
-                    <StyledBadge badgeContent={ cart.length > 0 ? cart.length : 0} color="secondary" >
+                  <IconButton sx={{ p: 0, color: "#1976d2" }} aria-label="cart">
+                    <StyledBadge badgeContent={cart.length > 0 ? cart.length : 0} color="secondary">
                       <ShoppingCartIcon />
                     </StyledBadge>
                   </IconButton>
