@@ -1,11 +1,11 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import ResponsiveAppBar from "./Component/Header";
+import ResponsiveAppBar from "./Component/Common/Header";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Posts from "./Component/Posts";
-import Products from "./Component/Products";
-import Home from "./Component/Home";
-import Cart from "./Component/Cart";
+import Posts from "./Component/Pages/Posts/Posts";
+import Products from "./Component/Pages/Products/Products";
+import Home from "./Component/Pages/Home/Home";
+import Cart from "./Component/Pages/Cart/Cart";
 import EditProduct from "./Component/Edit";
 import Box from "@mui/material/Box";
 function App() {

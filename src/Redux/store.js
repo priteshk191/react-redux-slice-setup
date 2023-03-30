@@ -1,10 +1,10 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage/session"; //or session
-import PostsSlice from "./slices/PostsSlice";
-import Productslice from "./slices/Productslice";
+import PostsSlice from "../Component/Pages/Posts/slice";
+import ProductsSlice from "../Component/Pages/Products/slice";
 const appReducer = combineReducers({
-  products: Productslice,
+  products: ProductsSlice,
   posts: PostsSlice,
 });
 const persistConfig = {

@@ -13,11 +13,7 @@ import { Box, CircularProgress } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import Button from "@mui/material/Button";
-import {
-  deleteProduct,
-  favoriteProduct,
-  addToCart,
-} from "../Redux/slices/Productslice.js";
+import { deleteProduct, favoriteProduct, addToCart } from "./slice";
 const Products = () => {
   const dispatch = useDispatch();
   const { products } = useSelector((state) => state);

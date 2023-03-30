@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { removeFromCart } from "../Redux/slices/Productslice";
+import { removeFromCart } from "../Products/slice";
 import {
   Typography,
   List,
@@ -28,10 +28,11 @@ const CartItem = styled(ListItem)({
   display: "flex",
   alignItems: "center",
   justifyContent: "space-between",
-  '& input[type="number"]::-webkit-inner-spin-button, & input[type="number"]::-webkit-outer-spin-button': {
-    "-webkit-appearance": "none",
-    margin: 0,
-  },
+  '& input[type="number"]::-webkit-inner-spin-button, & input[type="number"]::-webkit-outer-spin-button':
+    {
+      "-webkit-appearance": "none",
+      margin: 0,
+    },
 });
 const CartItemImage = styled(Avatar)({
   marginRight: "16px",
@@ -65,7 +66,10 @@ export default function Cart() {
                   <ListItemAvatar>
                     <CartItemImage alt={item.title} src={item.image} />
                   </ListItemAvatar>
-                  <ListItemText primary={item.title} secondary={`Price: $${item.price}`} />
+                  <ListItemText
+                    primary={item.title}
+                    secondary={`Price: $${item.price}`}
+                  />
                   <QuantityField
                     type="number"
                     label="Quantity"
@@ -76,7 +80,10 @@ export default function Cart() {
                     onChange={(event) => handleQuantityChange(item.id, event)}
                   />
                   <ListItemSecondaryAction>
-                    <IconButton edge="end" onClick={() => dispatch(removeFromCart(item.id))}>
+                    <IconButton
+                      edge="end"
+                      onClick={() => dispatch(removeFromCart(item.id))}
+                    >
                       <DeleteIcon />
                     </IconButton>
                   </ListItemSecondaryAction>

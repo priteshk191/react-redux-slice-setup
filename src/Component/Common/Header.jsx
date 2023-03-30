@@ -7,14 +7,15 @@ import Badge from "@mui/material/Badge";
 import Container from "@mui/material/Container";
 import Tooltip from "@mui/material/Tooltip";
 import { useDispatch, useSelector } from "react-redux";
-import { incrementAsync } from "../Redux/slices/Productslice";
+import { incrementAsync } from "../Pages/Products/slice";
 import { Link, useNavigate } from "react-router-dom";
-import { GetPosts } from "../Redux/slices/PostsSlice";
+import { GetPosts } from "../Pages/Posts/slice";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import FitbitIcon from "@mui/icons-material/Fitbit";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import { styled } from "@mui/system";
+
 const pages = ["Home", "Products", "Posts"];
 const StyledBadge = styled(Badge)(({ theme }) => ({
   "& .MuiBadge-badge": {
@@ -81,7 +82,14 @@ function ResponsiveAppBar() {
           <Toolbar disableGutters>
             <FitbitIcon sx={{ display: { md: "flex" }, mr: 1 }} />
             <Box sx={{ width: "100%" }}>
-              <Tabs value={tab} onChange={handleChange} textColor="secondary" indicatorColor="secondary" aria-label="secondary tabs example" centered>
+              <Tabs
+                value={tab}
+                onChange={handleChange}
+                textColor="secondary"
+                indicatorColor="secondary"
+                aria-label="secondary tabs example"
+                centered
+              >
                 {pages.map((page, i) => (
                   <Tab
                     key={i}
@@ -101,7 +109,10 @@ function ResponsiveAppBar() {
               <Tooltip title="Cart">
                 <Link to="/cart">
                   <IconButton sx={{ p: 0, color: "#1976d2" }} aria-label="cart">
-                    <StyledBadge badgeContent={cart.length > 0 ? cart.length : 0} color="secondary">
+                    <StyledBadge
+                      badgeContent={cart.length > 0 ? cart.length : 0}
+                      color="secondary"
+                    >
                       <ShoppingCartIcon />
                     </StyledBadge>
                   </IconButton>

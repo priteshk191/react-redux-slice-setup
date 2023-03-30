@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite --port 3000",
+    "dev": "vite --port 3001",
     "build": "rimraf ./dist && vite build && rimraf ./dist/**/*.map",
     "preview": "vite preview"
   },
